@@ -98,6 +98,10 @@ defmodule Kadabra.ConnectionPool do
     {:stop, :shutdown, state}
   end
 
+  def handle_info({:EXIT, _pid, _reason}, state) do
+    {:stop, :shutdown, state}
+  end
+
   def terminate(_reason, _state) do
     :ok
   end
