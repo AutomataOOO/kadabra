@@ -87,6 +87,11 @@ defmodule Kadabra.Socket do
         {:verify, :verify_peer},
         {:depth, 99},
         {:cacerts, :certifi.cacerts()},
+        # 와일드카드 SAN(예: *.googleapis.com)을 RFC6125 HTTPS 규칙으로 매칭한다.
+        # 미지정 시 OTP 기본 매처가 와일드카드를 거절해 hostname_check_failed 로
+        # 핸드셰이크가 실패한다.
+        {:customize_hostname_check,
+         [match_fun: :public_key.pkix_verify_hostname_match_fun(:https)]},
         {:alpn_advertised_protocols, [<<"h2">>]},
         :binary
       ]
